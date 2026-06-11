@@ -35,7 +35,7 @@ body {
 
 /* ── HEADER ── */
 .header {
-  background: var(--primary-dark);
+  background: var(--header-bg, var(--primary-dark));
   position: relative;
   overflow: hidden;
 }

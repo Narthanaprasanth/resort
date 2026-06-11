@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 import axios from 'axios';
 import { CONFIG } from './config';
 import { Header, Footer, ProgressNav } from './components/Layout';
@@ -44,8 +45,19 @@ export default function App() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [vendorId, setVendorId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [siteConfig, setSiteConfig] = useState(null);
 
   useEffect(() => {
+    // Fetch site config (logo + header color)
+    axios.get('http://localhost:8000/api/config/')
+      .then(res => {
+        setSiteConfig(res.data);
+        if (res.data.header_bg_color) {
+          document.documentElement.style.setProperty('--header-bg', res.data.header_bg_color);
+        }
+      })
+      .catch(err => console.error('Failed to fetch config:', err));
+
     document.title = `${CONFIG.RESORT_NAME} — Agent Registration`;
     document.documentElement.style.setProperty('--primary', CONFIG.COLOR_PRIMARY);
     document.documentElement.style.setProperty('--primary-dark', shadeColor(CONFIG.COLOR_PRIMARY, -25));
@@ -97,7 +109,7 @@ export default function App() {
 
   return (
     <>
-      <Header />
+      <Header siteConfig={siteConfig} />
       {!isSuccess && <ProgressNav currentStep={currentStep} labels={STEP_LABELS} />}
       
       <main className="main">

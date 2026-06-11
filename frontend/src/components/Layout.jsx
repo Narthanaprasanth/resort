@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONFIG } from '../config';
 
-export function Header() {
+export function Header({ siteConfig }) {
   const words = CONFIG.RESORT_NAME.split(' ');
   const mono = words.map(w => w[0]).join('').slice(0, 3).toUpperCase();
   const lastWord = words.pop();
@@ -13,18 +13,14 @@ export function Header() {
       <div className="header-pattern"></div>
       <div className="header-inner">
         <div>
-          <div className="header-monogram">{mono}</div>
-          <div className="header-eyebrow">Travel Agent Portal</div>
-          <h1 className="header-name">{firstParts}<br/><em>{lastWord}</em></h1>
-          <p className="header-tagline">{CONFIG.RESORT_TAGLINE} &nbsp;·&nbsp; Agent Partnership Registration</p>
+          {siteConfig?.logo ? (
+            <img className='log' src={siteConfig.logo.startsWith('http') ? siteConfig.logo : `http://localhost:8000${siteConfig.logo}`} alt="Logo" style={{ marginBottom: '16px', borderRadius: '5px', height: '100px' }} />
+          ) : (
+            <div className="header-monogram">{mono}</div>
+          )}
+
         </div>
-        <div className="header-right">
-          <div className="header-portal-label">Confidential</div>
-          <div className="header-portal-badge">
-            <strong>{CONFIG.PORTAL_LABEL}</strong>
-            <span>{CONFIG.WEBSITE}</span>
-          </div>
-        </div>
+
       </div>
       <div className="header-divider"></div>
     </header>

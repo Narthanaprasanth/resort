@@ -1,7 +1,15 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, views
 from rest_framework.response import Response
-from .models import Agent
-from .serializers import AgentSerializer
+from .models import Agent, SiteConfiguration
+from .serializers import AgentSerializer, SiteConfigurationSerializer
+
+class SiteConfigurationView(views.APIView):
+    def get(self, request, *args, **kwargs):
+        config = SiteConfiguration.objects.first()
+        if config:
+            serializer = SiteConfigurationSerializer(config, context={'request': request})
+            return Response(serializer.data)
+        return Response({})
 
 class AgentViewSet(viewsets.ModelViewSet):
     queryset = Agent.objects.all().order_by('-created_at')

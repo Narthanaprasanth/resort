@@ -56,3 +56,22 @@ class Agent(models.Model):
 
     def __str__(self):
         return self.agency_name
+
+class SiteConfiguration(models.Model):
+    logo = models.ImageField(upload_to='logos/', blank=True, null=True)
+    header_bg_color = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        default='#0f2418',
+        help_text='Header background color (e.g. #0f2418 or any CSS color)'
+    )
+
+    def __str__(self):
+        return "Site Configuration"
+    
+    def save(self, *args, **kwargs):
+        # Implement singleton pattern
+        if not self.pk and SiteConfiguration.objects.exists():
+            return SiteConfiguration.objects.first()
+        super().save(*args, **kwargs)
