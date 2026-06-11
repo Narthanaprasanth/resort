@@ -127,3 +127,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True
+
+# ── EMAIL CONFIGURATION (Gmail SMTP) ──
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'narthanaprasanth24@gmail.com'
+EMAIL_HOST_PASSWORD = 'ojef ayhd zffq vhau'   # Gmail App Password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMIN_EMAIL = 'narthanaprasanth24@gmail.com'   # Where registration PDFs are sent

@@ -7,6 +7,9 @@ class SiteConfigurationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AgentSerializer(serializers.ModelSerializer):
+    # Allow signatory_date to be blank/null in case form submits empty string
+    signatory_date = serializers.DateField(required=False, allow_null=True)
+
     class Meta:
         model = Agent
         fields = '__all__'

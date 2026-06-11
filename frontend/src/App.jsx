@@ -87,7 +87,16 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("There was an error submitting the form. Please try again.");
+      if (error.response?.data) {
+        // Show field-level validation errors from Django
+        const errs = error.response.data;
+        const msg = Object.entries(errs)
+          .map(([field, messages]) => `• ${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`)
+          .join('\n');
+        alert(`Submission failed. Please fix the following:\n\n${msg}`);
+      } else {
+        alert("There was an error submitting the form. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }

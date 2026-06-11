@@ -43,7 +43,7 @@ class Agent(models.Model):
     agreed = models.BooleanField(default=False)
     signatory_name = models.CharField(max_length=255)
     signatory_designation = models.CharField(max_length=100)
-    signatory_date = models.DateField()
+    signatory_date = models.DateField(blank=True, null=True)
 
     # Office Use
     status = models.CharField(max_length=50, default='Pending')
