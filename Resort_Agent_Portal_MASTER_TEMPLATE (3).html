@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title id="page-title">Agent Registration</title>
+
+<!-- ============================================================
+     DO TECHNOLOGIES — RESORT AGENT PORTAL TEMPLATE v1.0
+     ─────────────────────────────────────────────────────────
+     TO REBRAND FOR A NEW CLIENT — CHANGE ONLY THESE 10 LINES:
+     ============================================================ -->
+<script>
+const CONFIG = {
+  RESORT_NAME:    "Sandalo Castle Resort",       // Full resort name
+  RESORT_TAGLINE: "Nilgiris, Tamil Nadu",         // Location / tagline
+  PORTAL_LABEL:   "Travel Agent Partner Portal", // Shown under name
+  COLOR_PRIMARY:  "#1A3C34",                     // Main brand color (dark)
+  COLOR_ACCENT:   "#B8972E",                     // Accent color (gold/highlight)
+  COLOR_LIGHT:    "#F5EDD0",                     // Light tint of accent
+  CONTACT_EMAIL:  "reservations@sandalocastle.com", // Where submissions go
+  PHONE:          "+91 98765 43210",             // Resort contact number
+  WEBSITE:        "www.sandalocastle.com",        // Resort website
+  FOOTER_CREDIT:  "Powered by DO Technologies, Wayanad" // Keep this line
+};
+</script>
+<!-- ============================================================
+     END OF CONFIG — DO NOT EDIT BELOW THIS LINE
+     ============================================================ -->
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ── THEME (auto-applied from CONFIG) ── */
+:root {
+  --primary: #1A3C34;
+  --primary-dark: #0f2418;
+  --primary-mid: #2a5446;
+  --accent: #B8972E;
+  --accent-light: #d4a83a;
+  --accent-pale: #F5EDD0;
+  --accent-dim: rgba(184,151,46,0.1);
+  --cream: #FAF7F2;
+  --cream-dark: #F0EBE0;
+  --white: #FFFFFF;
+  --text: #1C1C1A;
+  --text-muted: #5C5648;
+  --text-light: #9B9285;
+  --border: rgba(0,0,0,0.09);
+  --border-accent: rgba(184,151,46,0.28);
+  --r: 5px;
+  --r-lg: 10px;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--primary-dark);
+  position: relative;
+  overflow: hidden;
+}
+.header-shimmer {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 100% at 90% 50%, rgba(255,255,255,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 60% at 5% 80%, rgba(255,255,255,0.02) 0%, transparent 60%);
+  pointer-events: none;
+}
+.header-pattern {
+  position: absolute; inset: 0; opacity: 0.025;
+  background-image: repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+.header-inner {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 52px 28px 44px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+}
+.header-monogram {
+  width: 52px; height: 52px;
+  border-radius: var(--r);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400;
+  color: var(--accent-pale);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+.header-eyebrow {
+  font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent); font-weight: 400;
+  margin-bottom: 8px;
+}
+.header-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 300; color: var(--white);
+  line-height: 1.08; letter-spacing: -0.3px;
+}
+.header-name em { font-style: italic; color: var(--accent-pale); }
+.header-tagline {
+  font-size: 13px; color: rgba(255,255,255,0.38);
+  margin-top: 8px; font-weight: 300; letter-spacing: 0.3px;
+}
+.header-right { text-align: right; }
+.header-portal-label {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 2px; color: rgba(255,255,255,0.25);
+  margin-bottom: 6px;
+}
+.header-portal-badge {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r);
+  padding: 8px 14px;
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  line-height: 1.5;
+}
+.header-portal-badge strong { display: block; color: var(--accent); font-size: 13px; font-weight: 500; }
+.header-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.08) 75%, transparent);
+}
+
+/* ── PROGRESS NAV ── */
+.progress-nav {
+  background: var(--primary);
+  padding: 0 28px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.progress-nav::-webkit-scrollbar { display: none; }
+.progress-track {
+  max-width: 760px; margin: 0 auto;
+  display: flex; align-items: center;
+  padding: 14px 0; gap: 0;
+}
+.pt-step {
+  display: flex; align-items: center;
+  gap: 7px; flex-shrink: 0;
+  cursor: pointer;
+  padding: 3px 0;
+}
+.pt-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: rgba(255,255,255,0.3);
+  font-weight: 500; transition: all 0.3s;
+}
+.pt-step.active .pt-num { background: var(--accent); border-color: var(--accent); color: var(--primary-dark); font-weight: 600; }
+.pt-step.done .pt-num { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); }
+.pt-label {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.8px; color: rgba(255,255,255,0.25);
+  transition: color 0.2s; white-space: nowrap;
+}
+.pt-step.active .pt-label { color: var(--accent); }
+.pt-step.done .pt-label { color: rgba(255,255,255,0.4); }
+.pt-line {
+  flex: 1; height: 1px; min-width: 14px;
+  background: rgba(255,255,255,0.07); margin: 0 8px;
+  transition: background 0.3s;
+}
+.pt-step.done + .pt-line { background: rgba(255,255,255,0.15); }
+
+/* ── MAIN ── */
+.main { max-width: 760px; margin: 0 auto; padding: 36px 28px 80px; }
+
+/* ── STEP PANELS ── */
+.step-panel { display: none; animation: fadeUp 0.3s ease; }
+.step-panel.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 28px 24px;
+  margin-bottom: 14px;
+}
+.card + .card { margin-top: 0; }
+.card-title {
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--accent);
+  font-weight: 500; margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title::before {
+  content: ''; width: 3px; height: 14px;
+  background: var(--accent); border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── FIELDS ── */
+.fg { display: grid; gap: 16px; }
+.fg.c2 { grid-template-columns: 1fr 1fr; }
+.fg.c3 { grid-template-columns: 1fr 1fr 1fr; }
+.mt { margin-top: 16px; }
+
+.f { display: flex; flex-direction: column; gap: 5px; }
+.f label {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 1.2px; color: var(--text-muted); font-weight: 500;
+}
+.f label .r { color: var(--accent); margin-left: 1px; }
+.f input, .f select, .f textarea {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--cream);
+  color: var(--text); outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  width: 100%;
+}
+.f input:focus, .f select:focus, .f textarea:focus {
+  border-color: var(--accent);
+  background: var(--white);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.f textarea { resize: none; height: 82px; line-height: 1.55; }
+.f select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%235C5648' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 30px; cursor: pointer;
+}
+
+/* ── CHECKBOX PILLS ── */
+.cb-group { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 7px; }
+.cb-pill {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r); cursor: pointer;
+  font-size: 13px; color: var(--text-muted);
+  background: var(--white); transition: all 0.18s;
+  user-select: none;
+}
+.cb-pill:hover { border-color: var(--accent); color: var(--text); }
+.cb-pill.on { border-color: var(--accent); background: var(--accent-dim); color: var(--primary); font-weight: 500; }
+.cb-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  border: 1.5px solid var(--text-light);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+}
+.cb-pill.on .cb-dot { background: var(--accent); border-color: var(--accent); }
+.cb-pill.on .cb-dot::after { content: ''; width: 4px; height: 4px; border-radius: 50%; background: white; }
+
+/* ── DOCUMENT CHECKLIST ── */
+.doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.doc-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--white); cursor: pointer; transition: all 0.18s;
+}
+.doc-item:hover { border-color: var(--accent); }
+.doc-item.on { border-color: var(--accent); background: var(--accent-dim); }
+.doc-chk-box {
+  width: 18px; height: 18px; border-radius: 3px;
+  border: 1.5px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+}
+.doc-item.on .doc-chk-box { background: var(--accent); border-color: var(--accent); }
+.doc-chk-icon { display: none; width: 10px; height: 10px; }
+.doc-chk-icon path { stroke: white; stroke-width: 2.5; fill: none; }
+.doc-item.on .doc-chk-icon { display: block; }
+.doc-label { font-size: 13px; color: var(--text-muted); }
+.doc-item.on .doc-label { color: var(--text); }
+
+/* ── T&C BOX ── */
+.tc-dark {
+  background: var(--primary-dark);
+  border-radius: var(--r-lg);
+  padding: 22px 24px; margin-bottom: 14px;
+  position: relative; overflow: hidden;
+}
+.tc-dark::after {
+  content: ''; position: absolute;
+  top: -24px; right: -24px; width: 90px; height: 90px;
+  border-radius: 50%; background: rgba(255,255,255,0.02);
+}
+.tc-dark-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; color: var(--accent-pale);
+  margin-bottom: 14px; font-weight: 400;
+}
+.tc-list { list-style: none; }
+.tc-list li {
+  font-size: 12.5px; color: rgba(255,255,255,0.42);
+  padding: 4px 0 4px 15px; position: relative; line-height: 1.5;
+}
+.tc-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 10px; top: 6px; }
+
+.agree-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--white); cursor: pointer; transition: all 0.18s;
+}
+.agree-row:hover { border-color: var(--accent); }
+.agree-row.on { border-color: var(--accent); background: var(--accent-dim); }
+.agree-chk-box {
+  width: 18px; height: 18px; border-radius: 3px;
+  border: 1.5px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px; transition: all 0.18s;
+}
+.agree-row.on .agree-chk-box { background: var(--accent); border-color: var(--accent); }
+.agree-icon { display: none; width: 10px; height: 10px; }
+.agree-icon path { stroke: white; stroke-width: 2.5; fill: none; }
+.agree-row.on .agree-icon { display: block; }
+.agree-label { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+.agree-row.on .agree-label { color: var(--text); }
+
+/* ── SIG FIELDS ── */
+.sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+.sig-f { display: flex; flex-direction: column; gap: 5px; }
+.sig-f label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); font-weight: 500; }
+.sig-f input {
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  padding: 10px 0; border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  background: transparent; color: var(--text); outline: none;
+  transition: border-color 0.2s;
+}
+.sig-f input:focus { border-bottom-color: var(--accent); }
+
+/* ── REVIEW ── */
+.review-block {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-lg); overflow: hidden; margin-bottom: 12px;
+}
+.review-block-hd {
+  background: var(--cream-dark);
+  padding: 9px 16px; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--text-muted); font-weight: 500;
+  border-bottom: 1px solid var(--border);
+}
+.review-tbl { width: 100%; border-collapse: collapse; }
+.review-tbl tr { border-bottom: 1px solid var(--border); }
+.review-tbl tr:last-child { border-bottom: none; }
+.review-tbl td { padding: 9px 16px; font-size: 13px; }
+.review-tbl td:first-child { color: var(--text-light); width: 40%; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.7px; }
+
+/* ── OFFICE USE ── */
+.office-block {
+  background: var(--primary); border-radius: var(--r-lg);
+  overflow: hidden; margin-top: 28px;
+}
+.office-hd {
+  background: var(--primary-dark); padding: 11px 22px;
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 2.5px; color: var(--accent); font-weight: 500;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.office-body { padding: 18px 22px; }
+.office-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.office-f label {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 1px; color: rgba(255,255,255,0.28);
+  display: block; margin-bottom: 4px;
+}
+.office-f input {
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  padding: 7px 0; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: transparent; color: rgba(255,255,255,0.65);
+  outline: none; width: 100%; transition: border-color 0.2s;
+}
+.office-f input:focus { border-bottom-color: var(--accent); color: white; }
+.office-remarks { display: flex; flex-direction: column; gap: 4px; }
+.office-remarks label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.28); }
+.office-remarks input {
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  padding: 7px 0; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: transparent; color: rgba(255,255,255,0.65);
+  outline: none; width: 100%;
+}
+
+/* ── NAV BUTTONS ── */
+.nav-row {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-top: 28px;
+  padding-top: 22px; border-top: 1px solid var(--border);
+}
+.btn-back {
+  padding: 10px 22px; border-radius: var(--r);
+  border: 1px solid var(--border); background: transparent;
+  font-size: 13px; color: var(--text-muted); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.18s;
+}
+.btn-back:hover { background: var(--cream-dark); color: var(--text); }
+.btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn-next {
+  padding: 10px 28px; border-radius: var(--r);
+  background: var(--primary); color: white; border: none;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.18s;
+}
+.btn-next:hover { background: var(--primary-mid); }
+.btn-submit {
+  padding: 12px 36px; border-radius: var(--r);
+  background: var(--accent); color: var(--primary-dark);
+  border: none; font-size: 14px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.18s;
+}
+.btn-submit:hover { background: var(--accent-light); }
+.step-counter { font-size: 12px; color: var(--text-light); }
+.step-counter strong { color: var(--accent); }
+
+/* ── SUCCESS ── */
+.success-wrap { text-align: center; padding: 56px 24px; }
+.success-ring {
+  width: 70px; height: 70px; border-radius: 50%;
+  border: 1px solid rgba(26,60,52,0.15);
+  background: rgba(26,60,52,0.06);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 22px;
+}
+.success-ring svg { width: 26px; height: 26px; stroke: var(--primary); stroke-width: 1.5; fill: none; }
+.success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 300; color: var(--primary);
+  margin-bottom: 10px; line-height: 1.1;
+}
+.success-sub { font-size: 14px; color: var(--text-muted); line-height: 1.7; max-width: 400px; margin: 0 auto 24px; }
+.ref-pill {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--primary-dark); color: rgba(255,255,255,0.5);
+  padding: 11px 24px; border-radius: var(--r); font-size: 13px;
+}
+.ref-pill strong { color: var(--accent); letter-spacing: 2px; font-family: monospace; font-size: 14px; }
+.success-contact {
+  margin-top: 22px; font-size: 13px; color: var(--text-light); line-height: 1.8;
+}
+.success-contact a { color: var(--accent); text-decoration: none; }
+
+/* ── FOOTER ── */
+.footer { background: var(--primary-dark); padding: 20px 28px; text-align: center; }
+.footer p { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.3px; }
+.footer span { color: rgba(255,255,255,0.35); }
+
+/* ── RESPONSIVE ── */
+@media(max-width: 580px) {
+  .header-inner { grid-template-columns: 1fr; }
+  .header-right { display: none; }
+  .fg.c2, .fg.c3, .sig-row, .doc-grid, .office-grid { grid-template-columns: 1fr; }
+  .main { padding: 24px 16px 60px; }
+  .card { padding: 20px; }
+  .pt-label { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-shimmer"></div>
+  <div class="header-pattern"></div>
+  <div class="header-inner">
+    <div>
+      <div class="header-monogram" id="hdr-mono">SC</div>
+      <div class="header-eyebrow" id="hdr-eyebrow">Travel Agent Portal</div>
+      <h1 class="header-name" id="hdr-name">Sandalo Castle<br><em>Resort</em></h1>
+      <p class="header-tagline" id="hdr-tagline">Nilgiris, Tamil Nadu &nbsp;·&nbsp; Agent Partnership Registration</p>
+    </div>
+    <div class="header-right">
+      <div class="header-portal-label">Confidential</div>
+      <div class="header-portal-badge" id="hdr-badge">
+        <strong id="hdr-portal-label">Travel Agent Partner Portal</strong>
+        <span id="hdr-website">www.sandalocastle.com</span>
+      </div>
+    </div>
+  </div>
+  <div class="header-divider"></div>
+</header>
+
+<!-- PROGRESS -->
+<nav class="progress-nav" aria-label="Form steps">
+  <div class="progress-track" id="progress-track"></div>
+</nav>
+
+<!-- MAIN FORM -->
+<main class="main">
+
+  <!-- ── STEP 0: Agency Details ── -->
+  <div class="step-panel active" data-step="0">
+    <div class="card">
+      <div class="card-title">Agency Details</div>
+      <div class="fg c2">
+        <div class="f"><label>Agency Name <span class="r">*</span></label><input type="text" id="f_agency_name" placeholder="Registered agency name" /></div>
+        <div class="f"><label>Year Established <span class="r">*</span></label><input type="text" id="f_year" placeholder="e.g. 2012" /></div>
+      </div>
+      <div class="fg mt">
+        <div class="f"><label>Website</label><input type="url" id="f_website" placeholder="https://youragency.com" /></div>
+      </div>
+      <div class="mt">
+        <div class="f"><label>Company Type <span class="r">*</span></label></div>
+        <div class="cb-group" id="cb_company">
+          <div class="cb-pill" onclick="cb(this,'cb_company',false)"><div class="cb-dot"></div>Individual</div>
+          <div class="cb-pill" onclick="cb(this,'cb_company',false)"><div class="cb-dot"></div>Partnership</div>
+          <div class="cb-pill" onclick="cb(this,'cb_company',false)"><div class="cb-dot"></div>Pvt Ltd</div>
+          <div class="cb-pill" onclick="cb(this,'cb_company',false)"><div class="cb-dot"></div>LLP</div>
+          <div class="cb-pill" onclick="cb(this,'cb_company',false)"><div class="cb-dot"></div>Other</div>
+        </div>
+      </div>
+      <div class="mt">
+        <div class="f"><label>Primary Market <span class="r">*</span></label></div>
+        <div class="cb-group" id="cb_market">
+          <div class="cb-pill" onclick="cb(this,'cb_market',false)"><div class="cb-dot"></div>Domestic</div>
+          <div class="cb-pill" onclick="cb(this,'cb_market',false)"><div class="cb-dot"></div>International</div>
+          <div class="cb-pill" onclick="cb(this,'cb_market',false)"><div class="cb-dot"></div>Both</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 1: Contact + Address ── -->
+  <div class="step-panel" data-step="1">
+    <div class="card">
+      <div class="card-title">Contact Person</div>
+      <div class="fg c2">
+        <div class="f"><label>Full Name <span class="r">*</span></label><input type="text" id="f_name" /></div>
+        <div class="f"><label>Designation <span class="r">*</span></label><input type="text" id="f_desig" placeholder="e.g. Director, Manager" /></div>
+      </div>
+      <div class="fg c2 mt">
+        <div class="f"><label>Mobile <span class="r">*</span></label><input type="tel" id="f_mobile" placeholder="+91" /></div>
+        <div class="f"><label>Email Address <span class="r">*</span></label><input type="email" id="f_email" /></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Office Address</div>
+      <div class="f">
+        <label>Registered Address <span class="r">*</span></label>
+        <textarea id="f_address" placeholder="Street, area, landmark..."></textarea>
+      </div>
+      <div class="fg c2 mt">
+        <div class="f"><label>City / State / Country <span class="r">*</span></label><input type="text" id="f_city" /></div>
+        <div class="f"><label>Postal / PIN Code</label><input type="text" id="f_pin" /></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Business Profile ── -->
+  <div class="step-panel" data-step="2">
+    <div class="card">
+      <div class="card-title">Business Profile</div>
+      <div class="fg c2">
+        <div class="f"><label>Top Destinations Sold <span class="r">*</span></label><input type="text" id="f_dest" placeholder="e.g. Ooty, Munnar, Coorg" /></div>
+        <div class="f"><label>Average Monthly Bookings <span class="r">*</span></label><input type="text" id="f_bookings" placeholder="e.g. 40–60 pax" /></div>
+      </div>
+      <div class="mt">
+        <div class="f"><label>Client Type <span class="r">*</span></label></div>
+        <div class="cb-group" id="cb_client">
+          <div class="cb-pill" onclick="cb(this,'cb_client',true)"><div class="cb-dot"></div>FIT</div>
+          <div class="cb-pill" onclick="cb(this,'cb_client',true)"><div class="cb-dot"></div>Groups</div>
+          <div class="cb-pill" onclick="cb(this,'cb_client',true)"><div class="cb-dot"></div>Corporate</div>
+          <div class="cb-pill" onclick="cb(this,'cb_client',true)"><div class="cb-dot"></div>MICE</div>
+          <div class="cb-pill" onclick="cb(this,'cb_client',true)"><div class="cb-dot"></div>Mixed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Partnership Expectations ── -->
+  <div class="step-panel" data-step="3">
+    <div class="card">
+      <div class="card-title">Partnership Expectations</div>
+      <div class="fg c2">
+        <div class="f"><label>Expected Monthly Room Nights <span class="r">*</span></label><input type="text" id="f_nights" placeholder="e.g. 30" /></div>
+        <div class="f"><label>Preferred Room Category</label><input type="text" id="f_room_cat" placeholder="e.g. Deluxe, Pool Suite" /></div>
+      </div>
+      <div class="fg c2 mt">
+        <div class="f"><label>Commission Requested (%) <span class="r">*</span></label><input type="text" id="f_commission" placeholder="e.g. 10%" /></div>
+        <div class="f"><label>Preferred Payment Terms <span class="r">*</span></label><input type="text" id="f_payment" placeholder="e.g. Net 15, Advance" /></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Banking Details ── -->
+  <div class="step-panel" data-step="4">
+    <div class="card">
+      <div class="card-title">Banking Details</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px;line-height:1.6">For commission disbursements only. Information is kept strictly confidential.</p>
+      <div class="fg c2">
+        <div class="f"><label>Bank Name <span class="r">*</span></label><input type="text" id="f_bank" /></div>
+        <div class="f"><label>Account Name <span class="r">*</span></label><input type="text" id="f_acc_name" /></div>
+      </div>
+      <div class="fg c2 mt">
+        <div class="f"><label>Account Number <span class="r">*</span></label><input type="text" id="f_acc_no" /></div>
+        <div class="f"><label>IFSC / SWIFT Code <span class="r">*</span></label><input type="text" id="f_ifsc" /></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Documents Required</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Confirm you will attach self-attested copies of the following:</p>
+      <div class="doc-grid">
+        <div class="doc-item" onclick="this.classList.toggle('on')">
+          <div class="doc-chk-box"><svg class="doc-chk-icon" viewBox="0 0 12 12"><path d="M2,6 L5,9 L10,3"/></svg></div>
+          <div class="doc-label">GST Registration Certificate</div>
+        </div>
+        <div class="doc-item" onclick="this.classList.toggle('on')">
+          <div class="doc-chk-box"><svg class="doc-chk-icon" viewBox="0 0 12 12"><path d="M2,6 L5,9 L10,3"/></svg></div>
+          <div class="doc-label">PAN Card</div>
+        </div>
+        <div class="doc-item" onclick="this.classList.toggle('on')">
+          <div class="doc-chk-box"><svg class="doc-chk-icon" viewBox="0 0 12 12"><path d="M2,6 L5,9 L10,3"/></svg></div>
+          <div class="doc-label">Company Registration</div>
+        </div>
+        <div class="doc-item" onclick="this.classList.toggle('on')">
+          <div class="doc-chk-box"><svg class="doc-chk-icon" viewBox="0 0 12 12"><path d="M2,6 L5,9 L10,3"/></svg></div>
+          <div class="doc-label">Cancelled Cheque</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: Terms + Declaration ── -->
+  <div class="step-panel" data-step="5">
+    <div class="tc-dark">
+      <div class="tc-dark-title">Terms & Conditions</div>
+      <ul class="tc-list">
+        <li>All bookings must be confirmed via official email communication only.</li>
+        <li>Commission is applicable only on net room revenue, excluding all applicable taxes.</li>
+        <li>Rate sheets are strictly confidential — not for public distribution or third parties.</li>
+        <li>Payment terms agreed upon registration must be strictly adhered to.</li>
+        <li>Cancellations and amendments are subject to the resort's prevailing cancellation policy.</li>
+        <li>Rate undercutting of any form may result in immediate termination of partnership.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Declaration</div>
+      <div class="agree-row" id="agree_row" onclick="toggleAgree()">
+        <div class="agree-chk-box"><svg class="agree-icon" viewBox="0 0 12 12"><path d="M2,6 L5,9 L10,3"/></svg></div>
+        <div class="agree-label">I confirm all information provided is true and accurate. I agree to comply with all policies and guidelines of this resort.</div>
+      </div>
+      <div class="sig-row">
+        <div class="sig-f"><label>Authorized Signatory <span class="r" style="color:var(--accent)">*</span></label><input type="text" id="f_sig_name" /></div>
+        <div class="sig-f"><label>Designation <span class="r" style="color:var(--accent)">*</span></label><input type="text" id="f_sig_desig" /></div>
+      </div>
+      <div class="sig-row" style="margin-top:0">
+        <div class="sig-f"><label>Date <span class="r" style="color:var(--accent)">*</span></label><input type="date" id="f_sig_date" /></div>
+        <div class="sig-f"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 6: Review ── -->
+  <div class="step-panel" data-step="6">
+    <div class="review-block">
+      <div class="review-block-hd">Agency & Contact</div>
+      <table class="review-tbl" id="rev_agency"></table>
+    </div>
+    <div class="review-block">
+      <div class="review-block-hd">Business & Partnership</div>
+      <table class="review-tbl" id="rev_biz"></table>
+    </div>
+    <div class="review-block">
+      <div class="review-block-hd">Banking & Declaration</div>
+      <table class="review-tbl" id="rev_bank"></table>
+    </div>
+    <div class="office-block">
+      <div class="office-hd">For Office Use Only</div>
+      <div class="office-body">
+        <div class="office-grid">
+          <div class="office-f"><label>Vendor ID</label><input type="text" placeholder="VND-0000" /></div>
+          <div class="office-f"><label>Approved By</label><input type="text" /></div>
+          <div class="office-f"><label>Date of Approval</label><input type="date" /></div>
+        </div>
+        <div class="office-remarks">
+          <label>Remarks</label>
+          <input type="text" placeholder="Internal notes..." />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUCCESS ── -->
+  <div class="step-panel" data-step="success">
+    <div class="success-wrap">
+      <div class="success-ring"><svg viewBox="0 0 28 28"><polyline points="5,14 11,20 23,8"/></svg></div>
+      <div class="success-title">Registration Submitted</div>
+      <p class="success-sub" id="success_msg">Thank you. Your registration has been received and will be reviewed within 2–3 business days.</p>
+      <div class="ref-pill">Reference ID &nbsp;·&nbsp; <strong id="ref_id">VND-000000</strong></div>
+      <div class="success-contact" id="success_contact"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div id="form-nav" class="nav-row">
+    <button class="btn-back" id="btn_back" onclick="prevStep()" disabled>← Back</button>
+    <span class="step-counter">Step <strong id="step_num">1</strong> of 7</span>
+    <button class="btn-next" id="btn_next" onclick="nextStep()">Continue →</button>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><span id="footer_resort"></span> &nbsp;·&nbsp; Agent Partner Portal &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; <span id="footer_credit"></span></p>
+</footer>
+
+<script>
+// ── APPLY CONFIG ──────────────────────────────────────────
+(function applyConfig() {
+  const C = CONFIG;
+
+  // CSS variables
+  document.documentElement.style.setProperty('--primary',     C.COLOR_PRIMARY);
+  document.documentElement.style.setProperty('--primary-dark', shadeColor(C.COLOR_PRIMARY, -25));
+  document.documentElement.style.setProperty('--primary-mid',  shadeColor(C.COLOR_PRIMARY, 15));
+  document.documentElement.style.setProperty('--accent',      C.COLOR_ACCENT);
+  document.documentElement.style.setProperty('--accent-light', shadeColor(C.COLOR_ACCENT, 15));
+  document.documentElement.style.setProperty('--accent-pale', C.COLOR_LIGHT);
+  document.documentElement.style.setProperty('--accent-dim',  hexToRgba(C.COLOR_ACCENT, 0.1));
+
+  // Page title
+  document.getElementById('page-title').textContent = C.RESORT_NAME + ' — Agent Registration';
+
+  // Header
+  const words = C.RESORT_NAME.split(' ');
+  const mono = words.map(w => w[0]).join('').slice(0, 3).toUpperCase();
+  document.getElementById('hdr-mono').textContent = mono;
+  document.getElementById('hdr-tagline').textContent = C.RESORT_TAGLINE + '  ·  Agent Partnership Registration';
+  document.getElementById('hdr-portal-label').textContent = C.PORTAL_LABEL;
+  document.getElementById('hdr-website').textContent = C.WEBSITE;
+
+  // Auto-split name for italic last word
+  const nameParts = C.RESORT_NAME.split(' ');
+  const last = nameParts.pop();
+  document.getElementById('hdr-name').innerHTML = nameParts.join(' ') + '<br><em>' + last + '</em>';
+
+  // Footer
+  document.getElementById('footer_resort').textContent = C.RESORT_NAME;
+  document.getElementById('footer_credit').textContent = C.FOOTER_CREDIT;
+})();
+
+function shadeColor(hex, pct) {
+  const num = parseInt(hex.replace('#',''), 16);
+  const r = Math.min(255, Math.max(0, (num>>16) + pct*2));
+  const g = Math.min(255, Math.max(0, ((num>>8)&0xff) + pct*2));
+  const b = Math.min(255, Math.max(0, (num&0xff) + pct*2));
+  return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('');
+}
+function hexToRgba(hex, a) {
+  const num = parseInt(hex.replace('#',''), 16);
+  return `rgba(${num>>16},${(num>>8)&0xff},${num&0xff},${a})`;
+}
+
+// ── STEPS ──────────────────────────────────────────────────
+const STEP_LABELS = ['Agency','Contact','Business','Partnership','Banking','Terms','Review'];
+let currentStep = 0;
+let agreed = false;
+
+function buildProgress() {
+  const track = document.getElementById('progress-track');
+  track.innerHTML = STEP_LABELS.map((lbl, i) => {
+    const cls = i < currentStep ? 'done' : i === currentStep ? 'active' : '';
+    const line = i < STEP_LABELS.length - 1 ? `<div class="pt-line"></div>` : '';
+    return `<div class="pt-step ${cls}"><div class="pt-num">${i < currentStep ? '✓' : i+1}</div><div class="pt-label">${lbl}</div></div>${line}`;
+  }).join('');
+}
+
+function showStep() {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-step="${currentStep}"]`)?.classList.add('active');
+  const nav = document.getElementById('form-nav');
+  if (currentStep >= STEP_LABELS.length || currentStep === 'success') {
+    nav.style.display = 'none'; return;
+  }
+  nav.style.display = 'flex';
+  document.getElementById('btn_back').disabled = currentStep === 0;
+  document.getElementById('step_num').textContent = currentStep + 1;
+  const isLast = currentStep === STEP_LABELS.length - 1;
+  const nb = document.getElementById('btn_next');
+  nb.textContent = isLast ? 'Submit Registration →' : 'Continue →';
+  nb.className = isLast ? 'btn-submit' : 'btn-next';
+  nb.onclick = isLast ? submitForm : nextStep;
+  if (currentStep === STEP_LABELS.length - 1) buildReview();
+  buildProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() { currentStep++; showStep(); }
+function prevStep() { if (currentStep > 0) { currentStep--; showStep(); } }
+
+function cb(el, groupId, multi) {
+  const g = document.getElementById(groupId);
+  if (!multi) g.querySelectorAll('.cb-pill').forEach(p => p.classList.remove('on'));
+  el.classList.toggle('on');
+}
+
+function toggleAgree() {
+  agreed = !agreed;
+  document.getElementById('agree_row').classList.toggle('on', agreed);
+}
+
+// ── REVIEW ──────────────────────────────────────────────────
+function val(id) { const el = document.getElementById(id); return el?.value || '—'; }
+function cbVal(id) {
+  const els = document.querySelectorAll(`#${id} .cb-pill.on`);
+  return els.length ? [...els].map(e => e.textContent.trim()).join(', ') : '—';
+}
+function rRows(data) {
+  return data.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+}
+
+function buildReview() {
+  document.getElementById('rev_agency').innerHTML = rRows([
+    ['Agency Name', val('f_agency_name')],
+    ['Company Type', cbVal('cb_company')],
+    ['Year Est.', val('f_year')],
+    ['Primary Market', cbVal('cb_market')],
+    ['Contact Name', val('f_name')],
+    ['Designation', val('f_desig')],
+    ['Mobile', val('f_mobile')],
+    ['Email', val('f_email')],
+    ['City / State', val('f_city')],
+  ]);
+  document.getElementById('rev_biz').innerHTML = rRows([
+    ['Top Destinations', val('f_dest')],
+    ['Monthly Bookings', val('f_bookings')],
+    ['Client Type', cbVal('cb_client')],
+    ['Expected Nights/Month', val('f_nights')],
+    ['Room Category', val('f_room_cat')],
+    ['Commission Expected', val('f_commission')],
+    ['Payment Terms', val('f_payment')],
+  ]);
+  document.getElementById('rev_bank').innerHTML = rRows([
+    ['Bank Name', val('f_bank')],
+    ['Account Name', val('f_acc_name')],
+    ['Account Number', val('f_acc_no')],
+    ['IFSC', val('f_ifsc')],
+    ['Terms Agreed', agreed ? '✓ Yes' : '✗ Not yet'],
+    ['Signatory', val('f_sig_name')],
+    ['Date', val('f_sig_date')],
+  ]);
+}
+
+// ── SUBMIT ──────────────────────────────────────────────────
+function submitForm() {
+  const refId = 'VND-' + Date.now().toString().slice(-6);
+  document.getElementById('ref_id').textContent = refId;
+  document.getElementById('success_msg').textContent =
+    `Thank you, ${val('f_agency_name') || 'your agency'}. Your registration with ${CONFIG.RESORT_NAME} has been received and will be reviewed within 2–3 business days.`;
+  document.getElementById('success_contact').innerHTML =
+    `For queries: <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a> &nbsp;·&nbsp; <a href="tel:${CONFIG.PHONE}">${CONFIG.PHONE}</a>`;
+  currentStep = 'success';
+  showStep();
+}
+
+// ── INIT ──────────────────────────────────────────────────
+buildProgress();
+showStep();
+</script>
+</body>
+</html>
