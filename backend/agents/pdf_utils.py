@@ -165,85 +165,104 @@ def generate_registration_pdf(agent) -> bytes:
     story.append(HRFlowable(width='100%', thickness=1.5, color=ACCENT))
 
     # ── SECTION 1 — Agency Details ───────────────────────────────────────────
-    _section_header('1.  Agency Details', story)
+    _section_header('1. Agency Details', story)
     story.append(_field_table([
         ('Agency Name',     agent.agency_name),
-        ('Year Established',agent.year_established),
-        ('Website',         agent.website or '—'),
         ('Company Type',    agent.company_type),
+        ('Year Established',agent.year_established),
         ('Primary Market',  agent.primary_market),
     ]))
 
-    # ── SECTION 2 — Contact & Address ───────────────────────────────────────
-    _section_header('2.  Contact & Address', story)
+    # ── SECTION 2 — Contact Person Details ───────────────────────────────────────
+    _section_header('2. Contact Person Details', story)
     story.append(_field_table([
-        ('Contact Person',  agent.contact_name),
+        ('Name',            agent.contact_name),
         ('Designation',     agent.contact_designation),
-        ('Mobile',          agent.contact_mobile),
-        ('Email',           agent.contact_email),
-        ('Address',         agent.address),
-        ('City',            agent.city),
-        ('PIN / ZIP',       agent.pin or '—'),
+        ('Mobile Number',   agent.contact_mobile),
+        ('Email Address',   agent.contact_email),
+    ]))
+    
+    # ── SECTION 3 — Office Address ───────────────────────────────────────
+    _section_header('3. Office Address', story)
+    story.append(_field_table([
+        ('Registered Address', agent.address),
+        ('City / State / Country', agent.city),
+        ('Website',         agent.website or '—'),
     ]))
 
-    # ── SECTION 3 — Business Profile ────────────────────────────────────────
-    _section_header('3.  Business Profile', story)
+    # ── SECTION 4 — Business Profile ────────────────────────────────────────
+    _section_header('4. Business Profile', story)
     client_types = agent.client_types
     if isinstance(client_types, list):
         client_types = ', '.join(client_types) if client_types else '—'
     story.append(_field_table([
-        ('Top Destinations',    agent.top_destinations),
-        ('Avg Monthly Bookings',agent.avg_monthly_bookings),
-        ('Client Types',        client_types),
+        ('Top Destinations Sold',    agent.top_destinations),
+        ('Average Monthly Bookings', agent.avg_monthly_bookings),
+        ('Client Type',              client_types),
     ]))
 
-    # ── SECTION 4 — Partnership Expectations ────────────────────────────────
-    _section_header('4.  Partnership Expectations', story)
+    # ── SECTION 5 — Partnership Expectations ────────────────────────────────
+    _section_header('5. Partnership Expectations', story)
     story.append(_field_table([
         ('Expected Monthly Room Nights', agent.expected_monthly_room_nights),
         ('Preferred Room Category',      agent.preferred_room_category or '—'),
-        ('Commission Requested',         agent.commission_requested),
+        ('Commission Requested (%)',     agent.commission_requested),
         ('Preferred Payment Terms',      agent.preferred_payment_terms),
     ]))
 
-    # ── SECTION 5 — Banking Details ──────────────────────────────────────────
-    _section_header('5.  Banking Details', story)
+    # ── SECTION 6 — Banking Details ──────────────────────────────────────────
+    _section_header('6. Banking Details', story)
     story.append(_field_table([
-        ('Bank Name',      agent.bank_name),
-        ('Account Name',   agent.account_name),
-        ('Account Number', agent.account_number),
-        ('IFSC Code',      agent.ifsc_code),
+        ('Bank Name',         agent.bank_name),
+        ('Account Name',      agent.account_name),
+        ('Account Number',    agent.account_number),
+        ('IFSC / SWIFT Code', agent.ifsc_code),
     ]))
 
-    # ── SECTION 6 — Documents Submitted ─────────────────────────────────────
-    _section_header('6.  Documents Submitted', story)
-    doc_list = []
-    if agent.docs_gst:     doc_list.append('GST Certificate')
-    if agent.docs_pan:     doc_list.append('PAN Card')
-    if agent.docs_company: doc_list.append('Company Registration')
-    if agent.docs_cheque:  doc_list.append('Cancelled Cheque')
+    # ── SECTION 7 — Documents Required (Attach Copies) ─────────────────────────────────────
+    _section_header('7. Documents Required (Attach Copies)', story)
     story.append(_field_table([
-        ('Documents', ', '.join(doc_list) if doc_list else 'None submitted'),
+        ('GST Registration',                 'Attached' if agent.docs_gst else 'Not Attached'),
+        ('PAN Card',                         'Attached' if agent.docs_pan else 'Not Attached'),
+        ('Company Registration Certificate', 'Attached' if agent.docs_company else 'Not Attached'),
+        ('Cancelled Cheque',                 'Attached' if agent.docs_cheque else 'Not Attached'),
     ]))
 
-    # ── SECTION 7 — Declaration ──────────────────────────────────────────────
-    _section_header('7.  Declaration', story)
+    # ── SECTION 8 — Terms & Conditions ──────────────────────────────────────
+    _section_header('8. Terms & Conditions', story)
+    story.append(Spacer(1, 2*mm))
+    terms = [
+        "All bookings must be confirmed via official email.",
+        "Commission applicable only on room revenue (excluding taxes).",
+        "Rates are confidential and must not be shared publicly.",
+        "Payment terms must be strictly followed.",
+        "Cancellation policy as per resort guidelines.",
+        "Any rate undercutting may lead to termination."
+    ]
+    for term in terms:
+        story.append(Paragraph(f"• {term}", s['value']))
+    story.append(Spacer(1, 4*mm))
+
+    # ── SECTION 9 — Declaration ──────────────────────────────────────────────
+    _section_header('9. Declaration', story)
+    story.append(Spacer(1, 2*mm))
+    story.append(Paragraph(
+        "I hereby confirm that the above information is true and agree to comply with Sandalo Castle Resort policies.",
+        s['value']
+    ))
+    story.append(Spacer(1, 4*mm))
     story.append(_field_table([
-        ('Agreed to Terms',    'Yes' if agent.agreed else 'No'),
-        ('Signatory Name',     agent.signatory_name),
-        ('Designation',        agent.signatory_designation),
-        ('Date',               str(agent.signatory_date) if agent.signatory_date else '—'),
+        ('Authorized Signatory', agent.signatory_name),
+        ('Designation',          agent.signatory_designation),
+        ('Date',                 str(agent.signatory_date) if agent.signatory_date else '—'),
     ]))
 
-    # ── SECTION 8 — Office Use ───────────────────────────────────────────────
-    _section_header('8.  Office Use Only', story)
+    # ── For Office Use Only ───────────────────────────────────────────────
+    _section_header('For Office Use Only', story)
     story.append(_field_table([
-        ('Status',          agent.status),
         ('Vendor ID',       agent.vendor_id or '—'),
         ('Approved By',     agent.approved_by or '—'),
-        ('Date of Approval',str(agent.date_of_approval) if agent.date_of_approval else '—'),
         ('Remarks',         agent.remarks or '—'),
-        ('Submitted On',    str(agent.created_at.strftime('%d %b %Y, %I:%M %p')) if agent.created_at else '—'),
     ]))
 
     # ── FOOTER ───────────────────────────────────────────────────────────────

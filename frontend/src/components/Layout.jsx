@@ -12,15 +12,14 @@ export function Header({ siteConfig }) {
       <div className="header-shimmer"></div>
       <div className="header-pattern"></div>
       <div className="header-inner">
-        <div>
+        <div className="header-brand">
           {siteConfig?.logo ? (
-            <img className='log' src={siteConfig.logo.startsWith('http') ? siteConfig.logo : `http://localhost:8000${siteConfig.logo}`} alt="Logo" style={{ marginBottom: '16px', borderRadius: '5px', height: '100px' }} />
+            <img className='logo' src={siteConfig.logo} alt="Logo" style={{ borderRadius: '5px', height: '60px' }} />
           ) : (
             <div className="header-monogram">{mono}</div>
           )}
-
+          <h1 className="header-title">Travel Agent Vendor Registration Form</h1>
         </div>
-
       </div>
       <div className="header-divider"></div>
     </header>

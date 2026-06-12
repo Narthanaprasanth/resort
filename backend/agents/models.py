@@ -34,10 +34,10 @@ class Agent(models.Model):
     account_number = models.CharField(max_length=100)
     ifsc_code = models.CharField(max_length=50)
     
-    docs_gst = models.BooleanField(default=False)
-    docs_pan = models.BooleanField(default=False)
-    docs_company = models.BooleanField(default=False)
-    docs_cheque = models.BooleanField(default=False)
+    docs_gst = models.FileField(upload_to='agent_docs/', blank=True, null=True)
+    docs_pan = models.FileField(upload_to='agent_docs/', blank=True, null=True)
+    docs_company = models.FileField(upload_to='agent_docs/', blank=True, null=True)
+    docs_cheque = models.FileField(upload_to='agent_docs/', blank=True, null=True)
 
     # Step 5: Terms + Declaration
     agreed = models.BooleanField(default=False)
@@ -71,7 +71,7 @@ class SiteConfiguration(models.Model):
         return "Site Configuration"
     
     def save(self, *args, **kwargs):
-        # Implement singleton pattern
+        # Implement singleton pattern — always reuse pk=1
         if not self.pk and SiteConfiguration.objects.exists():
-            return SiteConfiguration.objects.first()
+            self.pk = SiteConfiguration.objects.first().pk
         super().save(*args, **kwargs)

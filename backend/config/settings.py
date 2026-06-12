@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure---4akk(r!#r%!jwab)!u!1u&&txyds-u@*453s(7qqzr46*vrn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -149,10 +149,4 @@ EMAIL_HOST_USER = 'narthanaprasanth24@gmail.com'
 EMAIL_HOST_PASSWORD = 'ojef ayhd zffq vhau'   # Gmail App Password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 ADMIN_EMAIL = 'narthanaprasanth24@gmail.com'   # Where registration PDFs are sent
-
-
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-STATICFILES_DIRS = [
-    BASE_DIR / "frontend/dist"
-]
+

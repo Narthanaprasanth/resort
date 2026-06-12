@@ -35,7 +35,7 @@ const initialData = {
   top_destinations: '', avg_monthly_bookings: '', client_types: [],
   expected_monthly_room_nights: '', preferred_room_category: '', commission_requested: '', preferred_payment_terms: '',
   bank_name: '', account_name: '', account_number: '', ifsc_code: '',
-  docs_gst: false, docs_pan: false, docs_company: false, docs_cheque: false,
+  docs_gst: null, docs_pan: null, docs_company: null, docs_cheque: null,
   agreed: false, signatory_name: '', signatory_designation: '', signatory_date: ''
 };
 
@@ -49,7 +49,7 @@ export default function App() {
 
   useEffect(() => {
     // Fetch site config (logo + header color)
-    axios.get('http://localhost:8000/api/config/')
+    axios.get('/api/config/')
       .then(res => {
         setSiteConfig(res.data);
         if (res.data.header_bg_color) {
@@ -81,7 +81,21 @@ export default function App() {
   const submitForm = async () => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:8000/api/registrations/', data);
+      const formData = new FormData();
+      for (const key in data) {
+        if (data[key] !== null) {
+          if (Array.isArray(data[key])) {
+            // Send arrays as JSON string so DRF JSONField parses it correctly
+            formData.append(key, JSON.stringify(data[key]));
+          } else {
+            formData.append(key, data[key]);
+          }
+        }
+      }
+
+      const response = await axios.post('/api/registrations/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       setVendorId(response.data.vendor_id);
       setIsSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
