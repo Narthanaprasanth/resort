@@ -40,7 +40,8 @@ const initialData = {
 };
 
 // Set base URL for API calls so it works locally and on Vercel
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+const envUrl = import.meta.env.VITE_API_URL || '';
+axios.defaults.baseURL = envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState(0);
