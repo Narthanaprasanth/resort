@@ -39,6 +39,9 @@ const initialData = {
   agreed: false, signatory_name: '', signatory_designation: '', signatory_date: ''
 };
 
+// Set base URL for API calls so it works locally and on Vercel
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+
 export default function App() {
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState(initialData);
