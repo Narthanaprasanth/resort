@@ -40,7 +40,8 @@ const initialData = {
 };
 
 // Set base URL for API calls so it works locally and on Vercel
-const envUrl = import.meta.env.VITE_API_URL || '';
+const rawUrl = import.meta.env.VITE_API_URL || '';
+const envUrl = rawUrl && !rawUrl.startsWith('http') ? 'https://' + rawUrl : rawUrl;
 axios.defaults.baseURL = envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
 
 export default function App() {

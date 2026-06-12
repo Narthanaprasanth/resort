@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONFIG } from '../config';
+import axios from 'axios';
 
 export function Header({ siteConfig }) {
   const words = CONFIG.RESORT_NAME.split(' ');
@@ -14,7 +15,7 @@ export function Header({ siteConfig }) {
       <div className="header-inner">
         <div className="header-brand">
           {siteConfig?.logo ? (
-            <img className='logo' src={siteConfig.logo} alt="Logo" style={{ borderRadius: '5px', height: '60px' }} />
+            <img className='logo' src={siteConfig.logo.startsWith('http') ? siteConfig.logo : axios.defaults.baseURL + siteConfig.logo} alt="Logo" style={{ borderRadius: '5px', height: '60px' }} />
           ) : (
             <div className="header-monogram">{mono}</div>
           )}
