@@ -1,12 +1,13 @@
+import os
 import logging
 from django.conf import settings
-from django.core.mail import EmailMessage
 from rest_framework import viewsets, status, views
 from rest_framework.response import Response
 from .models import Agent, SiteConfiguration
 from .serializers import AgentSerializer, SiteConfigurationSerializer
 from .pdf_utils import generate_registration_pdf
 import threading
+import resend
 
 logger = logging.getLogger(__name__)
 
@@ -43,9 +44,12 @@ class AgentViewSet(viewsets.ModelViewSet):
                 pdf_bytes = generate_registration_pdf(agent_instance)
                 filename = f"Agent_Registration_{agent_instance.vendor_id}.pdf"
 
-                email = EmailMessage(
-                    subject=f'New Agent Registration — {agent_instance.agency_name} ({agent_instance.vendor_id})',
-                    body=(
+                resend.api_key = os.environ.get('RESEND_API_KEY')
+                params = {
+                    "from": "onboarding@resend.dev",
+                    "to": [settings.ADMIN_EMAIL],
+                    "subject": f'New Agent Registration — {agent_instance.agency_name} ({agent_instance.vendor_id})',
+                    "text": (
                         f"Hello,\n\n"
                         f"A new agent has completed the registration form.\n\n"
                         f"Agency : {agent_instance.agency_name}\n"
@@ -55,12 +59,12 @@ class AgentViewSet(viewsets.ModelViewSet):
                         f"Please find the full registration PDF attached.\n\n"
                         f"— Resort Agent Partner Portal"
                     ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[settings.ADMIN_EMAIL],
-                )
-                email.attach(filename, pdf_bytes, 'application/pdf')
-                email.send(fail_silently=False)
-                logger.info(f"Registration email sent for {agent_instance.vendor_id}")
+                    "attachments": [
+                        {"filename": filename, "content": list(pdf_bytes)}
+                    ]
+                }
+                resend.Emails.send(params)
+                logger.info(f"Registration email sent for {agent_instance.vendor_id} via Resend")
             except Exception as e:
                 logger.error(f"Failed to send registration email for {agent_instance.vendor_id}: {e}")
 
