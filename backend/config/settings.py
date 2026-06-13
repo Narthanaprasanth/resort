@@ -160,4 +160,5 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER', 'narthanaprasanth24@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', 'ojef ayhd zffq vhau')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 ADMIN_EMAIL = 'narthanaprasanth24@gmail.com'   # Where registration PDFs are sent
+EMAIL_TIMEOUT = 15
 
